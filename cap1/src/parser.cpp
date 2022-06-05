@@ -18,6 +18,7 @@ private:
   void consumeNextToken();
   int parseOperator(int *oper);
   int parseExpression(Expression **expr_p);
+  void traverse(Expression *expr);
 };
 
 Parser *createParser(std::string input)
@@ -130,8 +131,25 @@ void ParserImpl::parse()
     }
 
     std::cout << "Successfully parsed!" << "\n";
+    std::cout << "Traversing!" << "\n";
+    traverse(expr);
     // return 1;
   }
 
   // return 0;
+}
+
+void ParserImpl::traverse(Expression *expr) {
+
+  std::cout << "Expression Type='" << expr->type << "'; Oper='" << (char)expr->oper << "'; Value='" << expr->value << "'" << "\n";
+
+  if (expr->left != nullptr) {
+    std::cout << "Left: ";
+    traverse(expr->left);
+  }
+
+  if (expr->right != nullptr) {
+    std::cout << "Right: ";
+    traverse(expr->right);
+  }
 }
